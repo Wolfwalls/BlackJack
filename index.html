@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <h1>User Hand</h1>
+        <div id="total-locat">
+            <h1>Total:</h1>
+            <h1 id="total-place"></h1>
+        </div>
+        <div id="buttoncontainer">
+            <button id="deal" onclick = "dealUserCard()">Hit</button>
+            <button id="stand" onclick = "userStand()">Stand</button>
+        </div>
+        </div>
+        <div id="user-card-container">
+        </div>
+        <h1>Dealer Card</h1>
+        <div id="dealer-total-locat">
+            <h1>Total:</h1>
+            <h1 id="dealer-total-place"></h1>
+        </div>
+                <div id="dealer-card-container">
+                    
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        const user_card_container = document.getElementById("user-card-container")
+        const dealer_card_container = document.getElementById("dealer-card-container")
+        const hitBtn = document.getElementById("deal")
+        const standBtn = document.getElementById("stand")
+        let usertotalelem = document.getElementById("total-place")
+        let dealtotalelem = document.getElementById("dealer-total-place")
+        let deck = new Deck()
+        let usercards = []
+        let dealercards = []
+        let usertotal; 
+        let dealertotal = 0;
+        dealUserCard();
+        dealDealerCard(false)
+        
+        dealDealerCard(true);
+        dealUserCard();
+ 
+
+        function dealUserCard(){
+            usercards.push(deck.dealCard())
+            user_card_container.append(usercards[usercards.length-1].element)
+            usertotal= usercards.reduce(function(acc, card){return acc+card.pointVal}, 0)
+            console.log(usertotal)
+            if(usertotal > 21){
+                console.log("BUSt")
+                hitBtn.disabled = true
+                standBtn.disabled = true
+                flipdeal()
+                usertotalelem.innerHTML = "BUSTED"
+            }else if(usertotal == 21){ 
+                console.log("Hit")               
+                hitBtn.disabled = true
+                standBtn.disabled = true
+                flipdeal()
+                usertotalelem.innerHTML = "Full 21"
+            }
+            else{
+            usertotalelem.innerHTML = usertotal
+        }
+            
+        }
+        function userStand(){
+            hitBtn.disabled = true
+            standBtn.disabled = true
+            flipdeal()
+        }
+
+        function dealDealerCard(faceDown = false){
+            dealercards.push(deck.dealCard())
+            dealercards[dealercards.length -1].flipped = faceDown;
+            dealer_card_container.append(dealercards[dealercards.length-1].element)
+            dealertotal
+        }
+
+
+        function flipdeal(){
+            dealercards[dealercards.length -1].flipped = false
+        }
+    </script>
+
+</body>
+</html>

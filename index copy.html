@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <div id="user-card-container">
+        </div>
+                <div id="dealer-card-container">
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        const user_card_container = document.getElementById("user-card-container")
+        const dealer_card_container = document.getElementById("dealer-card-container")
+        let deck = new Deck()
+        let usercards = []
+        let dealercards = []
+        dealUserCard();
+        dealDealerCard()
+        dealUserCard();
+        dealDealerCard(false)
+        let total = usercards.reduce(function(acc, card){return acc+card.pointVal}, 0)
+
+
+        function dealUserCard(){
+            usercards.push(deck.dealCard())
+            user_card_container.append(usercards[usercards.length-1].element)
+        }
+
+        function dealDealerCard(faceUp = true){
+            dealercards.push(deck.dealCard())
+            dealercards[dealercards.length -1].flipped = !faceUp;
+            dealer_card_container.append(dealercards[dealercards.length-1].element)
+        }
+    </script>
+</body>
+</html>
