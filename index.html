@@ -28,6 +28,9 @@
                 <div id="dealer-card-container">
                     
         </div>
+        <div id="win-locat">
+
+        </div>
     </div>
     <script src="script.js"></script>
     <script>
@@ -56,19 +59,17 @@
             console.log(usertotal)
             if(usertotal > 21){
                 console.log("BUSt")
-                hitBtn.disabled = true
-                standBtn.disabled = true
-                flipdeal()
+                userStand()
+                
                 usertotalelem.innerHTML = "BUSTED"
             }else if(usertotal == 21){ 
                 console.log("Hit")               
-                hitBtn.disabled = true
-                standBtn.disabled = true
-                flipdeal()
+                userStand()
                 usertotalelem.innerHTML = "Full 21"
             }
             else{
             usertotalelem.innerHTML = usertotal
+            //These thingies check if you bust or get a full 21
         }
             
         }
@@ -76,19 +77,40 @@
             hitBtn.disabled = true
             standBtn.disabled = true
             flipdeal()
+            dealerdecis()
+            document.getElementById('dealer-total-place').classList.add("unhide")
+            //this thingy disables everything and starts the dealers turn
         }
 
         function dealDealerCard(faceDown = false){
             dealercards.push(deck.dealCard())
             dealercards[dealercards.length -1].flipped = faceDown;
             dealer_card_container.append(dealercards[dealercards.length-1].element)
-            dealertotal
+            dealertotal= dealercards.reduce(function(acc, card){return acc+card.pointVal}, 0)
+            dealtotalelem.innerHTML = dealertotal
+
         }
 
+
+        function dealerdecis(){
+            setInterval(()=>{
+                if(dealertotal < 17){
+                dealDealerCard()
+            }
+            if(dealertotal > 21){
+                console.log("BUSt")
+                dealtotalelem.innerHTML = "BUSTED"
+            }else if(dealertotal == 21){
+                dealtotalelem.innerHTML = "full 21"
+            }
+            },500)
+            }
+        //this thingy sets up a while loop so when you either bust or stand the dealer takes their turn
 
         function flipdeal(){
             dealercards[dealercards.length -1].flipped = false
         }
+        //Thing thingy flips the hidden dealer card
     </script>
 
 </body>

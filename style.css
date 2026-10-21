@@ -21,7 +21,16 @@ body{
 #total-place{
     margin-left: 10px;
 }
-
+#dealer-total-locat{
+    display: flex;
+}
+#dealer-total-place.unhide{
+        display: flex;
+}
+#dealer-total-place{
+    display: none;
+    margin-left: 10px;
+}
 #user-card-container, #dealer-card-container{
     height: 300px;
     display: flex;
