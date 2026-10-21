@@ -50,12 +50,27 @@
         
         dealDealerCard(true);
         dealUserCard();
+
+        function getHandTotal(hand){
+            let usertotal= hand.reduce(function(acc, card){return acc+card.pointVal}, 0)
+            let aces = hand.reduce(function(acc, card) {return card.pointVal == 11? acc+1:acc}, 0)
+
+            while(aces > 0 && usertotal > 21){
+                usertotal -= 10;
+                aces--;
+            }
+            return usertotal;
+        }
  
 
         function dealUserCard(){
             usercards.push(deck.dealCard())
             user_card_container.append(usercards[usercards.length-1].element)
-            usertotal= usercards.reduce(function(acc, card){return acc+card.pointVal}, 0)
+            usertotal = getHandTotal(usercards)
+            // if(usercards[usercards.length-1].pointVal == 11 && usertotal > 21){
+            //     usercards[usercards.length-1].pointVal = 1
+            //      usertotal= usercards.reduce(function(acc, card){return acc+card.pointVal}, 0)
+            // }
             console.log(usertotal)
             if(usertotal > 21){
                 console.log("BUSt")
@@ -86,22 +101,24 @@
             dealercards.push(deck.dealCard())
             dealercards[dealercards.length -1].flipped = faceDown;
             dealer_card_container.append(dealercards[dealercards.length-1].element)
-            dealertotal= dealercards.reduce(function(acc, card){return acc+card.pointVal}, 0)
+            dealertotal= getHandTotal(dealercards)
             dealtotalelem.innerHTML = dealertotal
 
         }
 
 
         function dealerdecis(){
-            setInterval(()=>{
+            let interval = setInterval(()=>{
                 if(dealertotal < 17){
                 dealDealerCard()
             }
             if(dealertotal > 21){
                 console.log("BUSt")
                 dealtotalelem.innerHTML = "BUSTED"
+                clearInterval(interval)
             }else if(dealertotal == 21){
                 dealtotalelem.innerHTML = "full 21"
+                clearInterval(interval)
             }
             },500)
             }
